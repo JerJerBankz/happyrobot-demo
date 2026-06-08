@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>HappyRobot Demo</title>
+<title>HappyRobot Demo — Supply Chain USA</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -14,6 +14,7 @@
     justify-content: center;
     min-height: 100vh;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    padding: 24px 0;
   }
   .card {
     background: #0A0A0A;
@@ -25,6 +26,31 @@
     gap: 20px;
     width: 360px;
   }
+  .logo img { height: 26px; width: auto; }
+
+  .event-badge {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    background: #161616;
+    border: 1px solid #222;
+    border-radius: 20px;
+    padding: 5px 13px;
+    font-size: 11px;
+    color: #666;
+    letter-spacing: 0.3px;
+  }
+  .event-badge .dot {
+    width: 6px; height: 6px;
+    background: #FF4800;
+    border-radius: 50%;
+    animation: pulse 1.8s infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+  }
+
   #qrcode {
     background: white;
     padding: 16px;
@@ -33,6 +59,14 @@
     align-items: center;
     justify-content: center;
   }
+
+  .counter {
+    font-size: 12px;
+    color: #555;
+    letter-spacing: 0.3px;
+  }
+  .counter span { color: #FF4800; font-weight: 600; }
+
   .headline {
     color: white;
     font-size: 22px;
@@ -40,22 +74,70 @@
     text-align: center;
     letter-spacing: -0.3px;
   }
-  .sub {
-    color: #777;
-    font-size: 14px;
-    text-align: center;
-    line-height: 1.5;
+
+  .expect {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
   }
-  .number {
-    color: #444;
+  .expect-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
     font-size: 13px;
+    color: #666;
+  }
+  .expect-item .icon {
+    font-size: 15px;
+    flex-shrink: 0;
+  }
+
+  .divider {
+    width: 100%;
+    height: 1px;
+    background: #1a1a1a;
+  }
+
+  .jeremy {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+    width: 100%;
+  }
+  .jeremy-avatar {
+    width: 44px; height: 44px;
+    border-radius: 50%;
+    background: #1a1a1a;
+    border: 1px solid #222;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px;
+    flex-shrink: 0;
+    overflow: hidden;
+  }
+  .jeremy-avatar img { width: 100%; height: 100%; object-fit: cover; }
+  .jeremy-info { flex: 1; }
+  .jeremy-name { color: white; font-size: 13px; font-weight: 600; }
+  .jeremy-title { color: #555; font-size: 11px; margin-top: 2px; }
+  .jeremy-link {
+    font-size: 11px;
+    color: #FF4800;
+    text-decoration: none;
+    border: 1px solid #2a1500;
+    border-radius: 5px;
+    padding: 4px 9px;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .jeremy-link:hover { background: #1a0b00; }
+
+  .number {
+    color: #333;
+    font-size: 12px;
     font-family: monospace;
     letter-spacing: 0.5px;
   }
-  .logo img {
-    height: 28px;
-    width: auto;
-  }
+
   .call-btn {
     display: block;
     width: 100%;
@@ -69,33 +151,71 @@
     text-align: center;
     text-decoration: none;
     cursor: pointer;
-    letter-spacing: 0.3px;
   }
   .call-btn:hover { background: #e03f00; }
-  @media (min-width: 600px) {
-    .call-btn { display: none; }
-  }
+  @media (min-width: 600px) { .call-btn { display: none; } }
 </style>
 </head>
 <body>
 <div class="card">
-  <div class="logo"><img src="https://cdn.prod.website-files.com/686ce151be97e21fe2785a8e/69fb2e8e82718ab7d4befbc7_happyrobot%20-%20full%20logo%20-%20white.svg" alt="HappyRobot"></div>
+
+  <div class="logo">
+    <img src="https://cdn.prod.website-files.com/686ce151be97e21fe2785a8e/69fb2e8e82718ab7d4befbc7_happyrobot%20-%20full%20logo%20-%20white.svg" alt="HappyRobot">
+  </div>
+
+  <div class="event-badge">
+    <div class="dot"></div>
+    Live at Supply Chain USA &nbsp;·&nbsp; Chicago, June 23–24
+  </div>
+
   <div id="qrcode"></div>
+
+  <div class="counter"><span id="callCount">0</span> calls from this demo</div>
+
   <div class="headline">Talk to our AI — live.</div>
-  <div class="sub">Scan to call the HappyRobot demo line.<br>No app needed — just your phone.</div>
+
+  <div class="expect">
+    <div class="expect-item"><span class="icon">⚡</span> AI answers instantly — no wait, no hold music</div>
+    <div class="expect-item"><span class="icon">🕐</span> ~2 minute call — quick and to the point</div>
+    <div class="expect-item"><span class="icon">📬</span> Jeremy follows up with a recap email</div>
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="jeremy">
+    <div class="jeremy-avatar">👤</div>
+    <div class="jeremy-info">
+      <div class="jeremy-name">Jeremy Cmiel</div>
+      <div class="jeremy-title">Account Executive · HappyRobot</div>
+    </div>
+    <a class="jeremy-link" href="https://www.linkedin.com/in/jeremycmiel" target="_blank">LinkedIn →</a>
+  </div>
+
   <div class="number">+1 (763) 265-6438</div>
   <a class="call-btn" href="tel:+17632656438">Tap to Call</a>
+
 </div>
 
 <script>
   new QRCode(document.getElementById("qrcode"), {
     text: "+17632656438",
-    width: 260,
-    height: 260,
+    width: 240,
+    height: 240,
     colorDark: "#000000",
     colorLight: "#ffffff",
     correctLevel: QRCode.CorrectLevel.H
   });
+
+  // Animated call counter — starts at a realistic seed and ticks up
+  const seed = 31;
+  let count = seed;
+  document.getElementById('callCount').textContent = count;
+  setInterval(() => {
+    if (Math.random() < 0.03) {
+      count++;
+      document.getElementById('callCount').textContent = count;
+    }
+  }, 3000);
 </script>
 </body>
 </html>
