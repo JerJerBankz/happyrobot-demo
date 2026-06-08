@@ -3,146 +3,155 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>HappyRobot Demo — Supply Chain USA</title>
+<title>HappyRobot — Talk to Our AI</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body {
-    background: #0A0A0A;
+    background: #0E0D0C;
     display: flex;
     align-items: center;
     justify-content: center;
     min-height: 100vh;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-    padding: 24px 0;
+    padding: 24px 16px;
   }
   .card {
-    background: #0A0A0A;
-    padding: 32px 28px;
+    padding: 36px 28px;
     border-radius: 16px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 22px;
+    gap: 24px;
     width: 100%;
     max-width: 420px;
   }
-  .logo img { height: 32px; width: auto; }
+  .logo img { height: 30px; width: auto; }
 
   .event-badge {
     display: flex;
     align-items: center;
     gap: 8px;
-    background: #161616;
-    border: 1px solid #222;
+    background: #181715;
+    border: 1px solid #2a2825;
     border-radius: 20px;
     padding: 7px 16px;
     font-size: 13px;
-    color: #666;
-    letter-spacing: 0.3px;
+    color: #888;
+    letter-spacing: 0.2px;
   }
   .event-badge .dot {
     width: 6px; height: 6px;
-    background: #FF4800;
+    background: #D59566;
     border-radius: 50%;
-    animation: pulse 1.8s infinite;
+    animation: pulse 2s infinite;
+    flex-shrink: 0;
   }
   @keyframes pulse {
     0%, 100% { opacity: 1; }
-    50% { opacity: 0.3; }
+    50% { opacity: 0.25; }
   }
 
   #qrcode {
-    background: white;
+    background: #FCFCFC;
     padding: 16px;
-    border-radius: 8px;
+    border-radius: 10px;
     display: flex;
     align-items: center;
     justify-content: center;
   }
 
-  .counter {
-    font-size: 14px;
-    color: #555;
-    letter-spacing: 0.3px;
-  }
-  .counter span { color: #FF4800; font-weight: 600; }
-
   .headline {
-    color: white;
-    font-size: 28px;
+    color: #FCFCFC;
+    font-size: 26px;
     font-weight: 700;
     text-align: center;
-    letter-spacing: -0.5px;
+    letter-spacing: -0.4px;
+    line-height: 1.2;
+  }
+  .subline {
+    font-size: 14px;
+    color: #666;
+    text-align: center;
+    line-height: 1.5;
+    margin-top: -10px;
   }
 
   .expect {
     width: 100%;
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 10px;
+    background: #181715;
+    border: 1px solid #2a2825;
+    border-radius: 10px;
+    padding: 16px 18px;
   }
   .expect-item {
     display: flex;
     align-items: center;
-    gap: 12px;
-    font-size: 15px;
-    color: #666;
+    gap: 11px;
+    font-size: 14px;
+    color: #999;
+    line-height: 1.4;
   }
-  .expect-item .icon {
-    font-size: 17px;
+  .expect-item .bullet {
+    width: 5px; height: 5px;
+    background: #D59566;
+    border-radius: 50%;
     flex-shrink: 0;
   }
+
+  .counter {
+    font-size: 13px;
+    color: #555;
+    letter-spacing: 0.2px;
+  }
+  .counter span { color: #D59566; font-weight: 600; }
 
   .divider {
     width: 100%;
     height: 1px;
-    background: #1a1a1a;
+    background: #1e1c1a;
   }
 
   .jeremy {
     display: flex;
     align-items: center;
-    gap: 13px;
+    gap: 14px;
     width: 100%;
   }
   .jeremy-avatar {
-    width: 64px; height: 64px;
+    width: 56px; height: 56px;
     border-radius: 50%;
     background: #1a1a1a;
-    border: 1px solid #222;
+    border: 1px solid #2a2825;
     flex-shrink: 0;
     overflow: hidden;
   }
   .jeremy-avatar img { width: 100%; height: 100%; object-fit: cover; }
   .jeremy-info { flex: 1; }
-  .jeremy-name { color: white; font-size: 16px; font-weight: 600; }
-  .jeremy-title { color: #555; font-size: 13px; margin-top: 3px; }
+  .jeremy-name { color: #FCFCFC; font-size: 15px; font-weight: 600; }
+  .jeremy-title { color: #666; font-size: 12px; margin-top: 3px; }
   .jeremy-link {
-    font-size: 13px;
-    color: #FF4800;
+    font-size: 12px;
+    color: #D59566;
     text-decoration: none;
-    border: 1px solid #2a1500;
+    border: 1px solid #3a2a1a;
     border-radius: 5px;
-    padding: 6px 12px;
+    padding: 6px 11px;
     white-space: nowrap;
     flex-shrink: 0;
+    transition: background 0.15s;
   }
-  .jeremy-link:hover { background: #1a0b00; }
-
-  .number {
-    color: #444;
-    font-size: 14px;
-    font-family: monospace;
-    letter-spacing: 0.5px;
-  }
+  .jeremy-link:hover { background: #221810; }
 
   .call-btn {
     display: block;
     width: 100%;
-    padding: 14px;
-    background: #FF4800;
-    color: white;
+    padding: 15px;
+    background: #112B42;
+    color: #FCFCFC;
     border: none;
     border-radius: 8px;
     font-size: 16px;
@@ -150,9 +159,19 @@
     text-align: center;
     text-decoration: none;
     cursor: pointer;
+    letter-spacing: 0.1px;
+    transition: background 0.15s;
   }
-  .call-btn:hover { background: #e03f00; }
+  .call-btn:hover { background: #1a3d5c; }
   @media (min-width: 600px) { .call-btn { display: none; } }
+
+  .phone-number {
+    color: #3a3835;
+    font-size: 13px;
+    font-family: monospace;
+    letter-spacing: 0.5px;
+    margin-top: -10px;
+  }
 </style>
 </head>
 <body>
@@ -164,7 +183,7 @@
 
   <div class="event-badge">
     <div class="dot"></div>
-    Live at Supply Chain USA &nbsp;·&nbsp; Chicago, June 23–24
+    Meet me at Supply Chain USA &nbsp;·&nbsp; Chicago, June 23–24
   </div>
 
   <div id="qrcode"></div>
@@ -174,11 +193,12 @@
   <div class="counter"><span id="callCount">0</span> calls from this demo</div>
 
   <div class="headline">Talk to our AI — live.</div>
+  <div class="subline">The same AI workers we deploy inside enterprise operations at scale.</div>
 
   <div class="expect">
-    <div class="expect-item"><span class="icon">⚡</span> AI answers instantly — no wait, no hold music</div>
-    <div class="expect-item"><span class="icon">🕐</span> ~2 minute call — quick and to the point</div>
-    <div class="expect-item"><span class="icon">📬</span> HappyRobot follows up with next steps</div>
+    <div class="expect-item"><div class="bullet"></div>Answers instantly — no wait, no hold music</div>
+    <div class="expect-item"><div class="bullet"></div>~2 minute call, quick and to the point</div>
+    <div class="expect-item"><div class="bullet"></div>HappyRobot follows up with next steps</div>
   </div>
 
   <div class="divider"></div>
@@ -187,7 +207,7 @@
     <div class="jeremy-avatar"><img src="/headshot.jpg" alt="Jeremy Cmiel"></div>
     <div class="jeremy-info">
       <div class="jeremy-name">Jeremy Cmiel</div>
-      <div class="jeremy-title">Account Executive · HappyRobot</div>
+      <div class="jeremy-title">Strategic Account Executive · HappyRobot</div>
     </div>
     <a class="jeremy-link" href="https://www.linkedin.com/in/jeremy-cmiel-b2165590/" target="_blank">LinkedIn →</a>
   </div>
@@ -196,15 +216,14 @@
 
 <script>
   new QRCode(document.getElementById("qrcode"), {
-    text: "+17632656438",
-    width: 240,
-    height: 240,
-    colorDark: "#000000",
-    colorLight: "#ffffff",
+    text: "tel:+17632656438",
+    width: 220,
+    height: 220,
+    colorDark: "#0E0D0C",
+    colorLight: "#FCFCFC",
     correctLevel: QRCode.CorrectLevel.H
   });
 
-  // Real call counter — fetched from server, refreshes every 30s
   function refreshCount() {
     fetch('/count')
       .then(r => r.json())
