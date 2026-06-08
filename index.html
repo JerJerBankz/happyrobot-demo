@@ -204,16 +204,15 @@
     correctLevel: QRCode.CorrectLevel.H
   });
 
-  // Animated call counter — starts at a realistic seed and ticks up
-  const seed = 31;
-  let count = seed;
-  document.getElementById('callCount').textContent = count;
-  setInterval(() => {
-    if (Math.random() < 0.03) {
-      count++;
-      document.getElementById('callCount').textContent = count;
-    }
-  }, 3000);
+  // Real call counter — fetched from server, refreshes every 30s
+  function refreshCount() {
+    fetch('/count')
+      .then(r => r.json())
+      .then(d => { document.getElementById('callCount').textContent = d.count; })
+      .catch(() => {});
+  }
+  refreshCount();
+  setInterval(refreshCount, 30000);
 </script>
 </body>
 </html>

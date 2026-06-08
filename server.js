@@ -16,7 +16,36 @@ const MIME = {
   '.ico':  'image/x-icon',
 };
 
+// In-memory call counter (persists until redeploy)
+let callCount = 0;
+
 http.createServer((req, res) => {
+  // CORS for Railway domain
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+
+  if (req.method === 'OPTIONS') {
+    res.writeHead(204);
+    res.end();
+    return;
+  }
+
+  // POST /increment — called by HappyRobot webhook on each call
+  if (req.method === 'POST' && req.url === '/increment') {
+    callCount++;
+    res.writeHead(200, { 'Content-Type': 'application/json' });
+    res.end(JSON.stringify({ count: callCount }));
+    return;
+  }
+
+  // GET /count — polled by the page
+  if (req.method === 'GET' && req.url === '/count') {
+    res.writeHead(200, { 'Content-Type': 'application/json' });
+    res.end(JSON.stringify({ count: callCount }));
+    return;
+  }
+
+  // Serve static files
   const filePath = req.url === '/' ? '/index.html' : req.url;
   const fullPath = path.join(__dirname, filePath);
   const ext = path.extname(fullPath).toLowerCase();
